@@ -30,18 +30,27 @@ export default {
     return {
     question: undefined,
     incorrectAnswers: undefined,
-    correctAnswers: undefined
+    correctAnswer: undefined,
+    
    }
   },
  
- 
+  computed: {
+    answers() {
+      var answers = JSON.parse(JSON.stringify(this.incorrectAnswers));
+      answers.push(this.correctAnswer);
+      return answers;
+    }
+
+  },
   created() {
     this.axios
     .get('https://opentdb.com/api.php?amount=1&category=18')
     .then((response) => {
       this.question = response.data.results[0].question
       this.incorrectAnswers = response.data.results[0].incorrect_answers;
-      this.correctAnswers = response.data.results[0].correct_answers;  
+      this.correctAnswer = response.data.results[0].correct_answer;
+
     })
   }  
 }
